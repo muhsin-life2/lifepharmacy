@@ -3,7 +3,7 @@ import Link from 'next/dist/client/link'
 import Image from 'next/dist/client/image'
 import { useRouter } from 'next/router';
 import { useDispatch } from 'react-redux';
-import { addToCart } from '../redux/cart.slice';
+import { addToCart, decrementQuantity } from '../redux/cart.slice';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { incrementQuantity } from '../redux/cart.slice';
@@ -42,10 +42,10 @@ export const SingleProductData = ({ pro_data }: { pro_data: any }) => {
     return (
         <>
             {pro_data ?
-                <div className="relative" >
-                    <Link href={`${pathname?.substring(0, 6)}/products/${pro_data.slug}`} className=" bg-gray-200 relative  p-2 mx-auto rounded-lg rounded-b-none inline-block">
-                        <Image className={`rounded-lg mx-auto`} src={pro_data.images?.featured_image} width={250} height={250} alt="product_img" />
-                        <span className="flex absolute bg-amber-400 rounded-bl-lg px-[7px] py-[1px] bottom-2 left-2 rounded-tr-xl shadow-xl ">
+                <div className="relative border border-slate-200 rounded-lg" >
+                    <Link href={`product/${pro_data.slug}`} className="  relative block p-2 mx-auto rounded-lg rounded-b-none  w-full">
+                        <Image className={`rounded-lg mx-auto border border-slate-100`} src={pro_data.images?.featured_image} width={250} height={250} alt="product_img" />
+                        <span className="flex absolute bg-amber-400 opacity-90 rounded-bl-lg px-[7px] py-[1px] bottom-2 left-2 rounded-tr-xl shadow-xl ">
                             <div className="my-auto">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill={reviewColor(pro_data.rating)} viewBox="0 0 24 24" stroke-width="1.5" stroke={reviewColor(pro_data.rating)} className="lg:w-4 stroke-white lg:h-3 w-3 h-3 mr-1 fill-white">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z" />
@@ -63,24 +63,24 @@ export const SingleProductData = ({ pro_data }: { pro_data: any }) => {
                         {/* {pro_data.out_of_stock ?
                         <div className="text-white absolute translate bg-black bg-opacity-50 px-3">Out of Stock</div>:null} */}
                     </Link>
-                    <div className="bg-white px-3 py-3 border-2 rounded-lg rounded-t-none">
+                    <div className="bg-white px-2 py-1 rounded-lg rounded-t-none">
 
                         <div className='flex justify-between'>
                             {/* <span className="md:text-xs text-[10px] ">AED</span> <span className="lg:text-xl sm:text-sm text-xs font-semibold">{parseFloat(pro_data.price).toFixed(2)}</span> */}
                             {pro_data.prices ? pro_data.prices[0].price.offer_price != pro_data.prices[0].price.regular_price ?
                                 <span className='whitespace-nowrap'>
                                     <b className='text-red-500 '>
-                                        <span className="md:text-sm text-xs">AED</span> <span className="lg:text-2xl sm:text-base text-base font-semibold">{pro_data.prices[0].price.offer_price}</span>
+                                        <span className="md:text-sm text-xs">AED</span> <span className="lg:text-lg sm:text-base text-base ">{pro_data.prices[0].price.offer_price}</span>
                                     </b>
                                     <b className='sm:mx-3 ml-1 text-blue-400'>
                                         <span className="sm:text-xs text-[10px] line-through sm:inline-block hidden">AED</span> <span className="sm:text-xs  line-through text-[10px]">{pro_data.prices[0].price.regular_price}</span>
                                     </b>
                                 </span>
                                 : <div className='text-blue-400' >
-                                    <span className="md:text-sm text-xs ">AED</span> <span className="lg:text-2xl sm:text-base text-sm font-semibold">{pro_data.prices ? parseFloat(pro_data.prices[0].price.regular_price).toFixed(2) : null}</span>
+                                    <span className="md:text-sm text-xs ">AED</span> <span className="lg:text-lg sm:text-base text-sm ">{pro_data.prices ? parseFloat(pro_data.prices[0].price.regular_price).toFixed(2) : null}</span>
                                 </div> : null}
                         </div>
-                        <Link href={`${pathname?.substring(0, 6)}/products/${pro_data.slug}`} className="h-8 block">
+                        <Link href={`product/${pro_data.slug}`} className="h-8 block">
                             <div className="lg:text-sm text-xs text-[#002579] ">{pro_data.title?.substring(0, 60) + '...'}</div>
 
                         </Link>
@@ -88,7 +88,7 @@ export const SingleProductData = ({ pro_data }: { pro_data: any }) => {
                             <div className="flex justify-start overflow-x-auto no-scrollbar">
                                 {pro_data.categories ?
                                     pro_data.categories.map((cat: any) => (
-                                        <a href={`${pathname?.substring(0, 6)}/home/products?categories=${cat.slug}`} className="whitespace-nowrap lg:text-xs text-[9px] border border-gray-300 hover:bg-gray-300 hover-border-white mr-2 rounded-md px-2 bg-white py-1">{cat.name}</a>
+                                        <a href={`products?categories=${cat.slug}`} className="whitespace-nowrap lg:text-[10px] text-[9px] border border-gray-300 hover:bg-gray-300 hover-border-white mr-2 rounded-md px-2 bg-[#f4f7ff] py-[1px] text-[#002579]">{cat.name}</a>
                                     ))
                                     : null}
                             </div>
@@ -99,7 +99,10 @@ export const SingleProductData = ({ pro_data }: { pro_data: any }) => {
                                 </div>
                                 {addedToCartClicked ?
                                     <div className="flex ">
-                                        <button className='bg-white border-gray-200 border px-1'>
+                                        <button onClick={() => {
+                                            dispatch(decrementQuantity(pro_data.id))
+                                            toast.info(`Cart successfully updated`);
+                                        }} className='bg-white border-gray-200 border px-1'>
                                             <Image src={"https://www.lifepharmacy.com/images/trash.svg"} height={15} width={15} alt="trash" />
                                         </button>
                                         <div className='bg-gray-200 text-sm px-2 text-center '><span className='align-middle'>{getProductQuantity(pro_data.id)}</span></div>

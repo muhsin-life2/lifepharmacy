@@ -54,7 +54,7 @@ const PageStructure: FC<compProps> = ({ data, lang, children, setLoading }) => {
                         <>
                             <div className="flex justify-center my-5">
                                 <h4 className="md:text-xl text-sm text-center font-bold flex-1">{data.section_title}</h4>
-                                <button onClick={() => { router.push(`${pathname?.substring(0, 6)}/home/products?collections=${data.section_data_object.slug}`) }} className="bg-[#39f] px-2 text-white text-xs">View All</button>
+                                <button onClick={() => { router.push(`/products?collections=${data.section_data_object.slug}`) }} className="bg-[#39f] px-2 text-white text-xs">View All</button>
                             </div>
                             {children}
                         </>

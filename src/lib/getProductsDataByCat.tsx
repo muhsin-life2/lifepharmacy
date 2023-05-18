@@ -1,7 +1,8 @@
 
-export default async function getProductsDataByCat(cat:string, type:string, noOfProducts:number) {
-    const urlPath =`https://prodapp.lifepharmacy.com/api/web/products?${cat!=""?`${type}=${cat}&`:""}order_by=popularity&type=cols&skip=${noOfProducts}&take=40&new_method=true&lang=ae-en`;
-    // console.log(urlPath);
+export default async function getProductsDataByCat(cat:string, type:string, noOfProducts:number, isProductsPage:boolean) {
+
+    const urlPath =`https://prodapp.lifepharmacy.com/api/web/products?${isProductsPage ? "" : cat != "" ? `${cat}=${type}&` : ""}order_by=popularity&type=cols&skip=${noOfProducts}&take=40&new_method=true&lang=ae-en`;
+    console.log(urlPath);
     
     const res = await fetch(urlPath)
 
@@ -9,3 +10,4 @@ export default async function getProductsDataByCat(cat:string, type:string, noOf
 
     return res.json()
 }
+

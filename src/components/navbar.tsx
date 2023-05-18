@@ -602,7 +602,7 @@ const Navbar: FC<navbarProps> = ({ data, brands_data, sessionServ, isArabic, lan
 
         <div className="md:bg-[#002579] bg-white  backdrop-blur backdrop-filter ">
           <div className="mx-auto flex max-w-[1450px] gap-5  py-4 px-[10px]">
-            <Link href={parts ? `/${parts[0]}-${parts[1]}/home` : "/home"} className="my-auto">
+            <Link href={"/"} className="my-auto">
               <Image src="https://www.lifepharmacy.com/images/logo-white.svg" alt=""
                 className=" bg-[#002579] filter md:flex hidden" width={380} height={250} />
 

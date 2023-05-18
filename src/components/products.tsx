@@ -11,6 +11,7 @@ const Products = ({ lang, slug, type_key }: {
     slug: string;
     type_key: string;
 }) => {
+
     switch (type_key) {
         case "collection":
             type_key = "collections"
@@ -21,6 +22,7 @@ const Products = ({ lang, slug, type_key }: {
             break
 
     }
+
     const url = `https://prodapp.lifepharmacy.com/api/web/products?${type_key}=${slug}&order_by=popularity&type=cols&skip=0&take=7&new_method=true&lang=${lang}`
     const { data, error, isLoading } = useSWR(url, fetcher)
 
