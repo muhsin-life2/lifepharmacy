@@ -108,12 +108,15 @@ const Navbar: FC<navbarProps> = ({ data, brands_data, sessionServ, isArabic, lan
 
   useEffect(() => {
     setDomLoaded(true);
+
     if (!showDropdown) return;
     function handleClick(event: any) {
 
     }
     window.addEventListener("click", handleClick);
     return () => window.removeEventListener("click", handleClick);
+
+
 
   }, []);
 
@@ -387,7 +390,6 @@ const Navbar: FC<navbarProps> = ({ data, brands_data, sessionServ, isArabic, lan
       .then(response => response.json())
       .then(result => console.log(result))
       .catch(error => console.log('error while fetching search data', error));
-
   }
 
   function isValidPhoneNoInput(SetOtpVisb: boolean) {
@@ -424,6 +426,7 @@ const Navbar: FC<navbarProps> = ({ data, brands_data, sessionServ, isArabic, lan
           if (res?.ok) {
             // setModalAction("authentication-modal", "close")
             await refreshData().then(() => {
+
               setaddNewAddress(true);
               setLocationModal(false);
             })
@@ -437,13 +440,13 @@ const Navbar: FC<navbarProps> = ({ data, brands_data, sessionServ, isArabic, lan
     else {
       await signIn('credentials', { email: phoneNumberforOTP, code: otpValue, isPhone: "false", redirect: false })
         .then(async (res) => {
+          debugger
           if (res?.ok) {
             await refreshData().then(() => {
               setaddNewAddress(true);
               setLocationModal(false);
-
             })
-
+            
           }
           else {
             // console.log(error)
@@ -809,7 +812,7 @@ const Navbar: FC<navbarProps> = ({ data, brands_data, sessionServ, isArabic, lan
                 <div className="text-[11px] text-center text-white">{langData.navbar.account}</div>
               </a>}
 
-              <a href={`${pathName?.substring(0, 6)}/home/cart`} className="flex flex-col md:hidden lg:flex hidden relative cart group/cart">
+              <a href={`/cart`} className="flex flex-col md:hidden lg:flex hidden relative cart group/cart">
                 {domLoaded ?
                   cartItems && cartItems.length != 0 ?
                     < div className="bg-red-500 rounded-full absolute top-0 -right-2 text-xs py-[3px] px-[8px] text-white font-semibold">
@@ -830,9 +833,9 @@ const Navbar: FC<navbarProps> = ({ data, brands_data, sessionServ, isArabic, lan
                     {cartItems.map((item: any) => (
                       <>
                         <div className="flex py-2">
-                          <a href={`${pathName?.substring(0, 6)}/products/${item.slug}`} className="w-3/4 text-sm  my-auto">{item.title}</a>
+                          <a href={`product/${item.slug}`} className="w-3/4 text-sm  my-auto">{item.title}</a>
                           <div className="w-1/4 flex">
-                            <a href={`${pathName?.substring(0, 6)}/products/${item.slug}`} className="w-3/4">
+                            <a href={`product/${item.slug}`} className="w-3/4">
                               <Image src={item.images.featured_image} height={100} width={100} className="w-full m-1" alt={item.title} />
                             </a>
                             <button onClick={() => {
@@ -859,7 +862,7 @@ const Navbar: FC<navbarProps> = ({ data, brands_data, sessionServ, isArabic, lan
                       </div>
                     </div>
                     <div className="py-3 flex justify-between text-white space-x-3">
-                      <a href={`${pathName?.substring(0, 6)}/home/cart`} className="bg-[#39f] px-3 py-1 w-full text-center" >CART</a>
+                      <a href={`/cart`} className="bg-[#39f] px-3 py-1 w-full text-center" >CART</a>
                       <button className="bg-[#39f] px-3 py-1 w-full">CHECK OUT</button>
                     </div>
                   </div>
@@ -1581,8 +1584,7 @@ const Navbar: FC<navbarProps> = ({ data, brands_data, sessionServ, isArabic, lan
                 enterTo="opacity-100 scale-100"
                 leave="ease-in duration-200"
                 leaveFrom="opacity-100 scale-100"
-                leaveTo="opacity-0 scale-95"
-              >
+                leaveTo="opacity-0 scale-95">
                 <Dialog.Panel className="w-full max-w-2xl transform  overflow-y-auto no-scrollbar rounded-2xl text-left align-middle shadow-xl transition-all ">
                   {addNewAddressClick && sessionServ.token.addresses.length === 0 ?
                     <div className=" bg-white rounded-lg shadow  overflow-y-auto no-scrollbar h-[calc(80vh-1rem)]">
@@ -1616,7 +1618,6 @@ const Navbar: FC<navbarProps> = ({ data, brands_data, sessionServ, isArabic, lan
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor" className="h-4 w-4">
                               <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
                             </svg>
-
                             <span className="sr-only">Close modal</span>
                           </button>
                           <h3 className="ml-3 text-sm font-bold text-indigo-800  p-1.5">Your Address</h3>
@@ -1894,7 +1895,7 @@ const Navbar: FC<navbarProps> = ({ data, brands_data, sessionServ, isArabic, lan
 
       <div className="fixed bottom-7 left-1/2 -translate-x-1/2 md:hidden w-3/4 backdrop-blur-sm bg-opacity-95 bg-slate-100 sm:h-20 h-12 rounded-full sm:pt-3 pt-1 items-center z-30">
         <div className="flex justify-between mt-2 sm:px-16 px-6">
-          <Link className="group/button" href={'/home'}>
+          <Link className="group/button" href={'/'}>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="sm:w-8 sm:h-8 w-5 h-5  fill-gray-500 my-auto group-focus/button:fill-black">
               <path fill-rule="evenodd" d="M9.293 2.293a1 1 0 011.414 0l7 7A1 1 0 0117 11h-1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-3a1 1 0 00-1-1H9a1 1 0 00-1 1v3a1 1 0 01-1 1H5a1 1 0 01-1-1v-6H3a1 1 0 01-.707-1.707l7-7z" clip-rule="evenodd" />
             </svg>
@@ -2153,7 +2154,7 @@ const Navbar: FC<navbarProps> = ({ data, brands_data, sessionServ, isArabic, lan
 
       <label className="hidden grid-cols-[repeat(1,auto)] grid-cols-[repeat(2,auto)] grid-cols-[repeat(3,auto)] grid-cols-[repeat(4,auto)] grid-cols-[repeat(5,auto)] grid-cols-[repeat(6,auto)] grid-cols-[repeat(7,auto)]
 grid-cols-[repeat(8,auto)] grid-cols-[repeat(9,auto)] grid-cols-[repeat(10,auto)] grid-cols-[repeat(11,auto)] grid-cols-[repeat(12,auto)]"></label>
-   <p className='hidden bg-[#fb7979] bg-[#9b274f] bg-[#f50a0a] bg-[#f245a1] bg-[#ef0b0b] bg-[#f90101] bg-[#d81851]'></p>
+      <p className='hidden bg-[#fb7979] bg-[#9b274f] bg-[#f50a0a] bg-[#f245a1] bg-[#ef0b0b] bg-[#f90101] bg-[#d81851]'></p>
 
     </>
   );

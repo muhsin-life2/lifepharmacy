@@ -34,14 +34,14 @@ export default function Example({ acc_data }: { acc_data: any }) {
                         <Disclosure defaultOpen={true}>
                             {({ open }) => (
                                 <>
-                                    <Disclosure.Button className="flex w-full justify-between rounded-lg bg-slate-200 px-4 py-2 text-left text-sm font-medium text-slate-900 hover:bg-gray-200 focus:outline-none focus-visible:ring focus-visible:ring-slate-500 focus-visible:ring-opacity-75">
-                                        <h2>{cat_data.name}</h2>
+                                    <Disclosure.Button className="flex w-full justify-between rounded-lg bg-slate-100 px-4 py-2 text-left text-sm font-medium text-slate-900 hover:bg-gray-200 focus:outline-none focus-visible:ring focus-visible:ring-slate-500 focus-visible:ring-opacity-75">
+                                        <h2 className='font-semibold'>{cat_data.name}</h2>
                                         <ChevronUpIcon
                                             className={`${open ? 'rotate-180 transform' : ''
-                                                } h-5 w-5 text-purple-500`}
+                                                } h-5 w-5 font-bold`}
                                         />
                                     </Disclosure.Button>
-                                    <Disclosure.Panel className="px-4 pt-4 pb-2 text-sm border-gray-200 border bg-slate-100 rounded-xl my-2  text-gray-500">
+                                    <Disclosure.Panel className="px-4 pt-4 pb-2 text-sm border-gray-200 border bg-[#f4f7ff] rounded-xl my-2  text-gray-500">
                                         <div className="grid lg:grid-cols-3 xl:grid-cols-3 md:grid-cols-3 gap-y-5 p-2">{cat_data.sections.map((ch_data: any) => (
                                             <Link href={`products/${slugify(ch_data.name)}`} className=" xl:flex mx-2  hover:bg-white rounded-lg p-2 hover:border-gray-200 hover:border border border-gray-50 group/item">
                                                 <Image className="xl:mx-0 mx-auto group-hover/item:scale-110 transition scale-100 duration-200 ease-in-out h-[50px] w-[50px]" src={LoadImages(ch_data.images)} height={50} width={50} alt={ch_data.name} />

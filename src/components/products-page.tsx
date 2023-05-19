@@ -2,6 +2,7 @@ import React from 'react'
 import { useEffect, useState } from 'react';
 import ProductsPageData from './products-page-data';
 import getProductsDataByCat from '@/lib/getProductsDataByCat';
+import { useLanguage } from '@/hooks/useLanguage';
 export const ProductsPage = ({ cat, type }: { cat: any, type: any }) => {
 
     const [data, setData] = useState([{
@@ -9,17 +10,17 @@ export const ProductsPage = ({ cat, type }: { cat: any, type: any }) => {
     const [noOfProducts, setNoOfProducts] = useState(40)
     const [animateSpin, setAnimateSpin] = useState(false)
     const [showMoreProductsbtn, setShowMoreProductsbtn] = useState(true)
+    const { locale } = useLanguage();
+    // function getApiUrl(isProductsPage: boolean, cat: string, type: any, noOfProducts: number) {
+    //     const url = `https://prodapp.lifepharmacy.com/api/web/products?${isProductsPage ? "" : cat != "" ? `${cat}=${type}&` : ""}order_by=popularity&type=cols&skip=${noOfProducts}&take=40&new_method=true&lang=`
+    //     console.log(url);
 
-    function getApiUrl(isProductsPage: boolean, cat: string, type: any, noOfProducts: number) {
-        const url = `https://prodapp.lifepharmacy.com/api/web/products?${isProductsPage ? "" : cat != "" ? `${cat}=${type}&` : ""}order_by=popularity&type=cols&skip=${noOfProducts}&take=40&new_method=true&lang=ae-en`
-        console.log(url);
-
-        return url
-    }
+    //     return url
+    // }
 
     function fetchData(query: any, noOfProducts: number, loadMoreData: boolean) {
         if (query === null) {
-            getProductsDataByCat(query, type, noOfProducts, true).then(
+            getProductsDataByCat(query, type, noOfProducts, true, locale).then(
                 (proData: any) => {
                     if (loadMoreData) {
                         setData([...data, ...proData.data.products])
@@ -33,7 +34,7 @@ export const ProductsPage = ({ cat, type }: { cat: any, type: any }) => {
             )
         }
         else {
-            getProductsDataByCat(query, type, noOfProducts, false).then(
+            getProductsDataByCat(query, type, noOfProducts, false, locale).then(
                 (proData: any) => {
                     if (loadMoreData) {
                         setData([...data, ...proData.data.products])

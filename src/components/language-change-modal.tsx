@@ -4,26 +4,23 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { CheckCircleIcon, CheckIcon, ChevronLeftIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid'
 import TransitionComp from './transition'
-import { useRouter, usePathname } from 'next/navigation'
+import { useRouter } from 'next/router'
+import { URL } from 'url'
 
-interface compProps{
-    setModalState:any
-    modalState:boolean
-    currentLanguage:any
-    currentCountry:any 
-    countries:any
-    languages:any
-    lang:string[]
-    languageClickedToast:any
+interface compProps {
+    setModalState: any
+    modalState: boolean
+    currentLanguage: any
+    currentCountry: any
+    countries: any
+    languages: any
+    lang: string[]
+    languageClickedToast: any
 }
 
-const LanguageChangeModal:FC<compProps> = ({ setModalState, modalState, currentLanguage, currentCountry, countries, languages, lang, languageClickedToast }) => {
+const LanguageChangeModal: FC<compProps> = ({ setModalState, modalState, currentLanguage, currentCountry, countries, languages, lang, languageClickedToast }) => {
     const router = useRouter()
 
-    const searchParams = usePathname()
-    const currentPath = searchParams?.substring(7, searchParams.length)
-
-    // const [selectedLanguage, setSelectedLanguage] = useState(languages[0].name)
     const [IsLanguageChangeClicked, languageChangeClicked] = useState(false)
     const [IsCountryChangeClicked, CountryChangeClicked] = useState(true)
     const [selected, setSelected] = useState('')
@@ -33,14 +30,14 @@ const LanguageChangeModal:FC<compProps> = ({ setModalState, modalState, currentL
         setModalState(false)
     }
 
-    function languageOnClicked(path:any) {
+    function languageOnClicked(path: any) {
         closeModal()
-        router.push(`/${selectedCountryPath}-${path}/${currentPath}`)
+        router.push('', router.asPath, { locale: `${selectedCountryPath}-${path}` })
         languageClickedToast()
     }
 
     const countryProps = <div className='space-y-2'>
-        {countries.map((contr:any) => (
+        {countries.map((contr: any) => (
             <div onClick={() => { countryClicked(contr.path) }} className="flex justify-between hover:bg-gray-200 border border-gray-200 rounded-lg p-2 cursor-pointer">
                 <div className="flex items-center justify-start space-x-4 ">
                     <div className="md:h-10 md:w-10 w-6 h-6 rounded-full my-auto">
@@ -68,7 +65,7 @@ const LanguageChangeModal:FC<compProps> = ({ setModalState, modalState, currentL
     const languageProps = <RadioGroup value={selected} onChange={setSelected}>
         <RadioGroup.Label className="sr-only">Server size</RadioGroup.Label>
         <div className="space-y-2">
-            {languages.map((plan:any) => (
+            {languages.map((plan: any) => (
                 <RadioGroup.Option
                     onClick={() => { languageOnClicked(plan.path) }}
                     key={plan.name}
@@ -81,33 +78,31 @@ relative flex cursor-pointer rounded-lg px-5 md:py-4 py-2 shadow-md focus:outlin
                     }
                 >
                     {({ active, checked }) => (
-                        <>
-                            <div className="flex w-full items-center justify-between">
-                                <div className="flex items-center">
-                                    <div className=" md:text-sm text-[10px]">
-                                        <RadioGroup.Label
-                                            as="p"
-                                            className={`font-medium  ${checked ? '' : 'text-gray-900'
-                                                }`}
-                                        >
-                                            {plan.name}
-                                        </RadioGroup.Label>
-                                        <RadioGroup.Description
-                                            as="span"
-                                            className={`inline ${checked ? 'text-sky-100' : 'text-gray-500'
-                                                }`}
-                                        >
+                        <div className="flex w-full items-center justify-between">
+                            <div className="flex items-center">
+                                <div className=" md:text-sm text-[10px]">
+                                    <RadioGroup.Label
+                                        as="p"
+                                        className={`font-medium  ${checked ? '' : 'text-gray-900'
+                                            }`}
+                                    >
+                                        {plan.name}
+                                    </RadioGroup.Label>
+                                    <RadioGroup.Description
+                                        as="span"
+                                        className={`inline ${checked ? 'text-sky-100' : 'text-gray-500'
+                                            }`}
+                                    >
 
-                                        </RadioGroup.Description>
-                                    </div>
+                                    </RadioGroup.Description>
                                 </div>
-                                {checked && (
-                                    <div className="shrink-0 text-emerald-500">
-                                        <CheckCircleIcon className='w-5 h-5 ' />
-                                    </div>
-                                )}
                             </div>
-                        </>
+                            {checked && (
+                                <div className="shrink-0 text-emerald-500">
+                                    <CheckCircleIcon className='w-5 h-5 ' />
+                                </div>
+                            )}
+                        </div>
                     )}
                 </RadioGroup.Option>
             ))}
@@ -124,7 +119,7 @@ relative flex cursor-pointer rounded-lg px-5 md:py-4 py-2 shadow-md focus:outlin
         CountryChangeClicked(true)
         languageChangeClicked(false)
     }
-    function countryClicked(path:string) {
+    function countryClicked(path: string) {
         if (path === lang[0]) {
             setSelected(currentLanguage.name)
         }

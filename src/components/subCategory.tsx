@@ -8,7 +8,9 @@ const Subcategory = ({ }) => {
     if (routerQueryLength === undefined) {
         routerQueryLength = 0
     }
-
+    if(router.query.subCategory === undefined){
+        router.query.subCategory = "categories"
+    }
     const category = router.query.subCategory[(routerQueryLength) - 1]
 
     if (routerQueryLength <= 3) {
